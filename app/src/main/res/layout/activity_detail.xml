@@ -14,6 +14,12 @@
         android:contentDescription="@string/sandwich_picture_content_description"
         android:scaleType="centerCrop" />
 
+    <ProgressBar
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:visibility="invisible"
+        android:id="@+id/pb_image_loading"/>
+
 
     <ScrollView
         android:layout_width="match_parent"

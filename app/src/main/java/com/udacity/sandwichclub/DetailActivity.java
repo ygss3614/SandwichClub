@@ -27,6 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView descriptionTextView;
     private TextView ingredientsTextView;
     private ImageView ingredientsIv;
+    private ProgressBar imageLoadingProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,7 @@ public class DetailActivity extends AppCompatActivity {
         alsoKnownTextView = findViewById(R.id.also_known_tv);
         descriptionTextView = findViewById(R.id.description_tv);
         ingredientsTextView = findViewById(R.id.ingredients_tv);
+        imageLoadingProgressBar = findViewById(R.id.pb_image_loading);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -66,11 +68,27 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         populateUI(sandwich);
-
-        ingredientsIv.setVisibility(View.VISIBLE);
+        imageLoadingProgressBar.setVisibility(View.VISIBLE);
+        // reference: https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#showing-progressbar-with-picasso
         Picasso.with(this)
                 .load(sandwich.getImage())
-                .into(ingredientsIv);
+                .into(ingredientsIv, new com.squareup.picasso.Callback(){
+                    @Override
+                    public void onSuccess() {
+                        if (imageLoadingProgressBar != null){
+                            imageLoadingProgressBar.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onError() {
+                        if (imageLoadingProgressBar != null){
+                            imageLoadingProgressBar.setVisibility(View.INVISIBLE);
+                        }
+
+                        Toast.makeText(DetailActivity.this, R.string.load_image_error_message, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
         setTitle(sandwich.getMainName());
