@@ -72,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
         // reference: https://guides.codepath.com/android/Displaying-Images-with-the-Picasso-Library#showing-progressbar-with-picasso
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .error(R.mipmap.ic_launcher)
                 .into(ingredientsIv, new com.squareup.picasso.Callback(){
                     @Override
                     public void onSuccess() {
